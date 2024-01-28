@@ -5,18 +5,37 @@ const canvas = document.querySelector("canvas.webgl");
 // ? Scene
 const scene = new THREE.Scene();
 
-// ? Object
-// * Geometry
-//  Object의 형태
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-// * Material
-// Object의 재질. 색상, 질감 등
-const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+// ? Axes Helper
+const axesHelper = new THREE.AxesHelper();
+scene.add(axesHelper);
 
-// * Mesh
-// Geometry + Material
-const mesh = new THREE.Mesh(geometry, material);
-scene.add(mesh);
+// ? Group
+const group = new THREE.Group();
+group.position.y = 1;
+group.scale.y = 2;
+group.rotation.y = 1;
+scene.add(group);
+
+const cube1 = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshBasicMaterial({ color: 0xff0000 })
+);
+group.add(cube1);
+const cube2 = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+);
+
+cube2.position.x = -2;
+group.add(cube2);
+
+const cube3 = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshBasicMaterial({ color: 0x0000ff })
+);
+
+cube3.position.x = 2;
+group.add(cube3);
 
 // ? Sizes: Camera의 비율을 정해주기 위한 값
 const sizes = {
@@ -27,6 +46,8 @@ const sizes = {
 // ? Camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height);
 camera.position.z = 3;
+// camera.position.y = 1;
+// camera.position.x = 1;
 scene.add(camera);
 
 // ? Renderer
