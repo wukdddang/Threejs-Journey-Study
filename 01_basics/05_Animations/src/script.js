@@ -1,4 +1,7 @@
 import * as THREE from "three";
+import gsap from "gsap";
+
+console.log(gsap);
 
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
@@ -29,23 +32,35 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(sizes.width, sizes.height);
 
-// Time
-let time = Date.now();
+// Clock
+const clock = new THREE.Clock();
+
+gsap.to(mesh.position, {
+  duration: 1,
+  x: 2,
+  delay: 1,
+});
+gsap.to(mesh.position, {
+  duration: 1,
+  x: 0,
+  delay: 2,
+});
 
 // Animations
 const tick = () => {
-  // Time
-  const currentTime = Date.now();
-  const deltaTime = currentTime - time;
-  time = currentTime;
-
-  // console.log(deltaTime);
+  // Clock
+  const elapsedTime = clock.getElapsedTime();
+  // console.log(elapsedTime);
 
   // ? Update objects
-  mesh.rotation.y += 0.001 * deltaTime;
+  // camera.position.y = Math.sin(elapsedTime);
+  // camera.position.x = Math.cos(elapsedTime);
+  // camera.lookAt(mesh.position);
 
   // ? Render
   // 모니터 HZ가 높으면 애니메이션 속도가 빠르다.
+  // 애니메이션을 동작하게 하려면 requestAnimationFrame 내부에서
+  // rnderer.render(scene, camera)를 호출해야 한다.
   renderer.render(scene, camera);
 
   window.requestAnimationFrame(tick);
